@@ -2,7 +2,7 @@ import {Badge, Card, Col} from "react-bootstrap";
 import {faker} from "@faker-js/faker";
 import {Link} from "react-router-dom";
 
-function Deck({deck: {id, difficulty, tags, name, description, author} = {}}) {
+function Deck({deck: {id, tags, name, description} = {}}) {
     return (
         <Col>
             <Link to={`/decks/${id}/`}>
@@ -17,8 +17,8 @@ function Deck({deck: {id, difficulty, tags, name, description, author} = {}}) {
                         </Card.Text>
                         <Card.Text>
                             {tags.map((tag) => (
-                                    <Badge key={tag} bg="primary" className="me-1">
-                                        {tag}
+                                    <Badge key={tag.name} bg="primary" className="me-1">
+                                        {tag.name}
                                     </Badge>
                                 )
                             )}
