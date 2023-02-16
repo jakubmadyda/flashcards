@@ -9,6 +9,8 @@ import FinishLearning from "./components/FinishLearning/FinishLearning";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import {AuthProvider} from "./context/AuthProvider";
+import Flashcards from "./components/Flashcards/Flashcards";
+import RequireAuth from "./components/RequireAuth/RequireAuth";
 
 const router = createBrowserRouter([
     {
@@ -17,11 +19,21 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Decks />
-            },
-            {
-                path: 'end',
-                element: <FinishLearning/>
+                element: <RequireAuth/>,
+                children: [
+                    {
+                        path: '',
+                        element: <Decks />
+                    },
+                    {
+                        path: 'end',
+                        element: <FinishLearning/>
+                    },
+                    {
+                        path: 'flashcards',
+                        element: <Flashcards/>
+                    }
+                ]
             },
             {
                 path: 'register',
@@ -30,7 +42,7 @@ const router = createBrowserRouter([
             {
                 path: 'login',
                 element: <Login/>
-            }
+            },
         ]
     },
     {

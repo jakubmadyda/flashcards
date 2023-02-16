@@ -1,13 +1,15 @@
 import Deck from "./Deck";
 import {useContext, useEffect, useState} from "react";
 import {Container, Row} from "react-bootstrap";
-import AuthContext from "../../context/AuthProvider";
 import {useLocalStorage} from "../../hooks/useLocalStorage";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import {useNavigate, useLocation} from "react-router-dom";
 
 function Decks() {
     const [decks, setDecks] = useState([])
-    // const {auth} = useContext(AuthContext)
-    const [auth] = useLocalStorage('tokens');
+    const axiosPrivate = useAxiosPrivate()
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const controller = new AbortController()
@@ -22,14 +24,26 @@ function Decks() {
     }, [])
 
     async function getDecksApi(signal) {
-        console.log(auth)
-        const response = await fetch('/api/v1/decks/', {
-            signal,
-            headers: {
-                'Authorization': `Bearer  ${auth.access}`
-            }
-        });
-        return await response.json();
+        try {
+            const response = await axiosPrivate.get('/decks/');
+            console.log(response.data);
+            return response.data
+        } catch(error) {
+            console.error(error);
+            navigate('/login', {
+                state: {
+                    from: location
+                },
+                replace: true
+            });
+        }
+        // const response = await fetch('/api/v1/decks/', {
+        //     signal,
+        //     headers: {
+        //         'Authorization': `Bearer  ${auth.access}`
+        //     }
+        // });
+        // return await response.json();
     }
 
     return (
