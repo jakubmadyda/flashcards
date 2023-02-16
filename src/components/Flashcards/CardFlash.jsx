@@ -17,8 +17,8 @@ function CardFlash({card: {question, answer, id, tags}}) {
                         </Card.Text>
                         <Card.Text>
                             {tags.map((tag) => (
-                                    <Badge key={tag.name} bg="primary" className="me-1">
-                                        {tag.name}
+                                    <Badge key={tag} bg="primary" className="me-1">
+                                        {tag}
                                     </Badge>
                                 )
                             )}
